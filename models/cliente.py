@@ -1,7 +1,7 @@
 from sql_alchemy import banco
 
 class ClienteModel(banco.Model):
-    __tablename__ = 'clente'
+    __tablename__ = 'Cliente'
     cpf = banco.Column(banco.String(12), primary_key=True)
     nome = banco.Column(banco.String(100))
     rg = banco.Column(banco.String(8))
