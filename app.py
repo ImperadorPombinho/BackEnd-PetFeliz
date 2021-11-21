@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-
+from resources.produto import Produtos
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
@@ -14,10 +14,13 @@ def criar_banco():
     banco.create_all()
 
 
+#rotas da api
+api.add_resource(Produtos, '/produtos')
 
+
+# main do projeto
 if __name__ == '__main__':
     from sql_alchemy import banco
     banco.init_app(app)
     app.run(debug=True)
 
-# main do projeto
