@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from resources.produto import Produtos
+from resources.produto import Produtos, Produto
 from excel_dados import preenncher_banco
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
@@ -18,11 +18,13 @@ def criar_banco():
 
 #rotas da api
 api.add_resource(Produtos, '/produtos')
+api.add_resource(Produto, '/produto/<string:codigo>')
 
 
 # main do projeto
 if __name__ == '__main__':
     from sql_alchemy import banco
     banco.init_app(app)
+
     app.run(debug=True)
 

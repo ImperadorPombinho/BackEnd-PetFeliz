@@ -2,7 +2,7 @@ from sql_alchemy import banco
 
 
 class ProdutoModel(banco.Model):
-    __tablename__ = 'produto'
+    __tablename__ = 'TB_PRODUTO'
     codigo = banco.Column(banco.String(10), primary_key=True)
     nome = banco.Column(banco.String(70))
     tipo = banco.Column(banco.String(60))
