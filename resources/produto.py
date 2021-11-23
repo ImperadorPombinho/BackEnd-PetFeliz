@@ -34,4 +34,4 @@ class Produto(Resource):
         produto = ProdutoModel.encontrar_produto_por_codigo(codigo)
         if produto:
             return produto.json(), 200
-        return {'Error': 'Nao encontrado 404'}, 404
+        return {'Error': f'Nao encontrado produto: {codigo}'}, 404
