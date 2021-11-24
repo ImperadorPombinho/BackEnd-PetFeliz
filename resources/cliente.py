@@ -60,7 +60,7 @@ class Cliente(Resource):
         cliente = ClienteModel.encontrar_cliente_por_cpf(cpf)
         if cliente:
             try:
-                cliente.atualizar_cliente(cliente.get_cpf(), **dados)
+                cliente.atualizar_cliente(cliente.get_cpf(), **dados, cliente.get_quantidade_gasta())
                 cliente.salvar_cliente()
                 return cliente.json(), 200
             except:
