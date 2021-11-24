@@ -30,6 +30,8 @@ class CarrinhoModel(banco.Model):
     def atualizar_carrinho(self, cpf_cliente):
         self.cpf_cliente = cpf_cliente
 
+    def pegar_todos_os_produtos(self):
+        return [produto for produto in self.produtos]
     
     def json(self):
         return {

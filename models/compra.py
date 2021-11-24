@@ -10,10 +10,10 @@ class CompraModel(banco.Model):
     data_compra = banco.Column(banco.DATE(tomezone=True))
     horario_compra = banco.Column(banco.TIMESTAMP(timezone=True))
     valor_compra = banco.Column(banco.Float(precision=2))
-    codigo = banco.Column(banco.String(10), banco.ForeignKey('TB_CARRINHO.codigo_carrinho'))
+    codigo_carrinho = banco.Column(banco.String(10), banco.ForeignKey('TB_CARRINHO.codigo_carrinho'))
 
 
-    def __init__(self, data_compra, horario_compra, codigo_carrinho):
+    def __init__(self, codigo_carrinho, data_compra, horario_compra):
         self.data_compra = data_compra
         self.horario_compra = horario_compra
         self.valor_compra = 0
@@ -26,14 +26,28 @@ class CompraModel(banco.Model):
             return compra
         return None
     
+    @classmethod
+    def encontrar_compra_por_carrinho(cls, codigo_carrinho):
+        compra = cls.query.filter_by(codigo_carrinho=codigo_carrinho).first()
+        if compra:
+            return compra
+        return None
+
+    def salvar_compra(self):
+        banco.session.add(self)
+        banco.session.commit() 
 
 
-    
+    def deletar_compra(self):
+        banco.session.delete(self)
+        banco.session.commit()
+
+
     def realizar_compra(self):
-        #função que realiza a compra com carrinho
+        #função que realiza compra com carrinho
         desconto = 0
         carrinho = CarrinhoModel.encontrar_carrinho_por_codigo(self.codigo_carrinho)
-        lista_produtos = carrinho.produtos
+        lista_produtos = carrinho.pegar_todos_os_produtos()
         precos_produtos = 0
         quantidades_produto = 0
         for produto in lista_produtos:
@@ -51,7 +65,10 @@ class CompraModel(banco.Model):
             if cliente.creditos >= self.valor_compra:
                 cliente.creditos -= self.valor_compra
                 cliente.quantidade_gasta += self.valor_compra
-                cliente.salvar_cliente()
+                try:
+                    cliente.salvar_cliente()
+                except:
+                    return {'Error': 'erro de servidor'}, 500
                 return {'messagem': f'compra do cliente {cliente.cpf} efetuada com sucesso'}, 200
             else:
                 return {'messagem': f'creditos faltando'}, 200
