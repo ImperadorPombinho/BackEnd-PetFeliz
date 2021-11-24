@@ -1,3 +1,5 @@
+from models.carrinho import CarrinhoModel
+from models.cliente import ClienteModel
 from models.interfaces import InterfaceRegrasNegocio
 from sql_alchemy import banco
 
@@ -29,15 +31,36 @@ class CompraModel(banco.Model):
     
     def realizar_compra(self):
         #função que realiza a compra com carrinho
-        pass
+        desconto = 0
+        carrinho = CarrinhoModel.encontrar_carrinho_por_codigo(self.codigo_carrinho)
+        lista_produtos = carrinho.produtos
+        precos_produtos = 0
+        quantidades_produto = 0
+        for produto in lista_produtos:
+            precos_produtos += produto.preco
+            quantidades_produto += produto.quantidade
 
+        valor_total_compra = precos_produtos * quantidades_produto
+        #realizar regra aq
+        valor_com_desconto = valor_total_compra * desconto
 
+        self.valor_compra = valor_total_compra - valor_com_desconto
+        cliente = ClienteModel.encontrar_cliente_por_cpf(carrinho.cpf_cliente)
 
+        if cliente:
+            if cliente.creditos >= self.valor_compra:
+                cliente.creditos -= self.valor_compra
+                cliente.quantidade_gasta += self.valor_compra
+                cliente.salvar_cliente()
+                return {'messagem': f'compra do cliente {cliente.cpf} efetuada com sucesso'}, 200
+            else:
+                return {'messagem': f'creditos faltando'}, 200
+        else:
+            return {'Error': 'cliente não encontrado'}, 404
 
     def json(self):
         return {
             'compra_id': self.compra_id,
-            'quantidade': self.quantidade,
             'data_compra': self.data_compra,
             'horario_compra': self.horario_compra,
             'valor_compra': self.valor_compra,

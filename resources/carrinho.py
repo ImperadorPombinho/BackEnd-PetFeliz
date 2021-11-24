@@ -1,6 +1,4 @@
 from flask_restful import Resource, reqparse
-import sqlite3
-
 from models.carrinho import CarrinhoModel
 from models.produto import ProdutoModel
 
@@ -26,17 +24,16 @@ class Carrinho(Resource):
         if not produto:
             return {'Error': f'produto {dados["codigo"]} não encontrado '}, 404
         try:
-            produto.atualizar_produto(**produto.json(), dados['quantidade'], codigo_carrinho) 
+            produto.atualizar_produto(quantidade=dados['quantidade'], codigo_carrinho=codigo_carrinho, **produto.json()) 
             produto.salvar_produto()
         except:
-            return {'Error': 'erro de servidor'}, 500
-        
-        carrinho = CarrinhoModel(codigo_carrinho, dados['cpf_cliente'])
-
-        try:
-            carrinho.salvar_carrinho()
-        except:
-            return  {'Error': 'erro de servidor'}, 500
+            return {'Error': 'produto nao atualizado'}, 500     
+        if not CarrinhoModel.encontrar_carrinho_por_codigo(codigo_carrinho):
+            carrinho = CarrinhoModel(codigo_carrinho, dados['cpf_cliente'])
+            try:
+                carrinho.salvar_carrinho()
+            except:
+                return  {'Error': 'erro de servidor'}, 500
         return {'messagem': 'produto adicionado no carrinho'}, 200 
 
     def delete(self, codigo_carrinho):

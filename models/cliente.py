@@ -63,7 +63,7 @@ class ClienteModel(banco.Model):
         banco.session.delete(self)
         banco.session.commit()
     
-    def atualizar_cliente(self, cpf, nome, rg, telefone, endereco, email, senha, creditos, quantidade_gasta):
+    def atualizar_cliente(self, nome, rg, telefone, endereco, email, senha, creditos, cpf='', quantidade_gasta=0):
         self.cpf = cpf
         self.nome = nome
         self.rg = rg

@@ -35,6 +35,5 @@ class CarrinhoModel(banco.Model):
         return {
             'codigo_carrinho': self.codigo_carrinho,
             'cpf_cliente': self.cpf_cliente,
-            'compra_id': self.compra_id,
             'produtos': [produto.json() for produto in self.produtos]
         }

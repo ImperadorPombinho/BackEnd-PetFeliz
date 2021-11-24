@@ -34,7 +34,7 @@ class ProdutoModel(banco.Model):
         banco.session.delete(self)
         banco.session.commit()
 
-    def atualizar_produto(self, nome, tipo, preco, estoque, quantidade, codigo_carrinho):
+    def atualizar_produto(self, nome, tipo, preco, estoque, quantidade=1, codigo_carrinho=None):
         self.nome = nome
         self.tipo = tipo
         self.preco = preco
