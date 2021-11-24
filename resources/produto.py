@@ -21,7 +21,8 @@ class Produtos(Resource):
                     'nome': linha[1],
                     'tipo': linha[2],
                     'preco': linha[3],
-                    'estoque': linha[4]
+                    'estoque': linha[4],
+                    'quantidade': linha[5]
                 }
             )
 

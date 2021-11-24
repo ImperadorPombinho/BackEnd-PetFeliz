@@ -8,6 +8,8 @@ class ProdutoModel(banco.Model):
     tipo = banco.Column(banco.String(60))
     preco = banco.Column(banco.Float(precision=2))
     estoque = banco.Column(banco.Integer())
+    quantidade = banco.Column(banco.Integer())
+    codigo_carrinho = banco.Column(banco.String(10), banco.ForeignKey('TB_CARRINHO.codigo_carrinho'))
 
     def __init__(self, codigo, nome, tipo, preco, estoque):
         self.codigo = codigo
@@ -15,6 +17,7 @@ class ProdutoModel(banco.Model):
         self.tipo = tipo
         self.preco = preco
         self.estoque = estoque
+        self.quantidade = 1
     
     @classmethod
     def encontrar_produto_por_codigo(cls, codigo):
@@ -31,18 +34,20 @@ class ProdutoModel(banco.Model):
         banco.session.delete(self)
         banco.session.commit()
 
-    def atualizar_produto(self, nome, tipo, preco, estoque):
+    def atualizar_produto(self, nome, tipo, preco, estoque, quantidade, codigo_carrinho):
         self.nome = nome
         self.tipo = tipo
         self.preco = preco
         self.estoque = estoque
+        self.quantidade = quantidade
+        self.codigo_carrinho = codigo_carrinho
 
     def json(self):
         return {
-            'codigo': self.codigo,
             'nome': self.nome,
             'tipo': self.tipo,
-            'preco': self.preco
+            'preco': self.preco,
+            'estoque': self.estoque
         }
 
 

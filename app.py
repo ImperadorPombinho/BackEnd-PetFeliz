@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_restful import Api
+from resources.carrinho import Carrinho
 from resources.cliente import Cadastro, Cliente, Clientes, Login, Logout
 from resources.produto import Produtos, Produto
 from excel_dados import preenncher_banco
@@ -37,6 +38,7 @@ api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(Clientes, '/clientes')
 api.add_resource(Cliente, '/clientes/<string:cpf>')
+api.add_resource(Carrinho, '/produto/carrinho/<string:codigo_carrinho>')
 
 #http://127.0.0.1:5000/ -> rota raiz
 
