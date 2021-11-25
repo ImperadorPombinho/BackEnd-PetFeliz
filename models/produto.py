@@ -18,6 +18,7 @@ class ProdutoModel(banco.Model):
         self.preco = preco
         self.estoque = estoque
         self.quantidade = 1
+        self.codigo_carrinho = None
     
     @classmethod
     def encontrar_produto_por_codigo(cls, codigo):
