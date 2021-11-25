@@ -1,18 +1,17 @@
 from sql_alchemy import banco
-
+from sqlalchemy import types
 class PetModel(banco.Model):
     __tablename__ = 'TB_PET'
     cadastro_pet = banco.Column(banco.String(10), primary_key=True)
     nome = banco.Column(banco.String(80))
-    data_nascimento = banco.Column(banco.DateTime(timezone=True))
+    data_nascimento = banco.Column(types.Date())
     raca = banco.Column(banco.String(80))
     especie = banco.Column(banco.String(80))
     cpf_cliente = banco.Column(banco.String(12), banco.ForeignKey('TB_CLIENTE.cpf'))
 
-    def __init__(self, cadastro_pet, nome, data_nascimento, raca, especie):
+    def __init__(self, cadastro_pet, nome, raca, especie):
         self.cadastro_pet = cadastro_pet
         self.nome = nome
-        self.data_nascimento = data_nascimento
         self.raca = raca
         self.especie = especie
 
@@ -41,10 +40,12 @@ class PetModel(banco.Model):
 
     def colocar_dono_do_pet(self, cpf):
         self.cpf_cliente = cpf
-
-    def atualizar_pet(self, nome, data_nascimento, raca, especie):
-        self.nome = nome
+    
+    def colocar_data_nascimento(self, data_nascimento):
         self.data_nascimento = data_nascimento
+
+    def atualizar_pet(self, nome, raca, especie):
+        self.nome = nome
         self.raca = raca
         self.especie = especie
     
@@ -52,7 +53,7 @@ class PetModel(banco.Model):
         return {
             'cadastro': self.cadastro_pet,
             'nome': self.nome,
-            'data_nascimento': self.data_nascimento,
+            'data_nascimento': self.data_nascimento.isoformat(),
             'raca': self.raca,
             'especie': self.especie,
             'cpf_dono': self.cpf_cliente

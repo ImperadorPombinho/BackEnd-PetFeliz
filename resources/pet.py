@@ -1,7 +1,7 @@
-from sqlite3.dbapi2 import Date
 from flask_restful import Resource, reqparse
 import sqlite3
 from models.cliente import ClienteModel
+import datetime
 
 from models.pet import PetModel
 
@@ -30,11 +30,11 @@ class Pets(Resource):
 class Pet(Resource):
     pet_dados = reqparse.RequestParser()
     pet_dados.add_argument('nome', type=str, required=True, help='nome é obrigatório')
-    pet_dados.add_argument('data_nascimento', type=Date, required=True, help='data de nascimento é obrigatória')
+    pet_dados.add_argument('data_nascimento', type=str, required=True, help='data de nascimento é obrigatória')
     pet_dados.add_argument('raca', type=str, required=True, help='raça é obrigátoria')
     pet_dados.add_argument('especie', type=str, required=True, help='especie é obrigatória')
     pet_dados.add_argument('cpf_cliente', type=str, required=True, help='cpf do dono é obrigatório')
-    
+    formato = '%d/%m/%Y'
     def get(self, cadastro_pet):
         pet = PetModel.encontrar_pet_por_cadastro(cadastro_pet)
         if pet:
@@ -43,26 +43,34 @@ class Pet(Resource):
 
     def post(self, cadastro_pet):
         dados = Pet.pet_dados.parse_args()
+        dados_sem_cpf_e_sem_data = {chave: valor for chave, valor in dados.items() if chave != 'cpf_cliente' and chave != 'data_nascimento' }
         if not ClienteModel.encontrar_cliente_por_cpf(dados['cpf_cliente']):
             return {'Error': 'se cadastre primeiro para cadastrar seu pet'}, 404
-        pet = PetModel(cadastro_pet, **dados)
+        pet = PetModel(cadastro_pet, **dados_sem_cpf_e_sem_data)
+        pet.colocar_dono_do_pet(dados['cpf_cliente'])
+        datetime_obj = datetime.datetime.strptime(dados['data_nascimento'], Pet.formato)
+        pet.colocar_data_nascimento(datetime_obj.date())
         try:
             pet.salvar_pet()
         except:
             return {'Error': 'erro de servidor'}, 500
+            
         return {'messagem': f'cadastro do pet {pet.nome} efetuado com sucesso'}, 200
     
     def put(self, cadastro_pet):
         dados = Pet.pet_dados.parse_args()
-        dados_sem_cpf = {chave: valor for chave, valor in dados.items() if not dados.get('cpf_cliente')}
+        dados_sem_cpf_e_sem_data = {chave: valor for chave, valor in dados.items() if chave != 'cpf_cliente' and chave != 'data_nascimento'}
         pet = PetModel.encontrar_pet_por_cadastro(cadastro_pet)
         if not pet:
             return {'Error': f'pet {pet.nome} não encontrado'}, 404
+        pet.atualizar_pet(**dados_sem_cpf_e_sem_data)
+        pet.colocar_dono_do_pet(dados['cpf_cliente'])
+        datetime_obj = datetime.datetime.strptime(dados['data_nascimento'], Pet.formato)
+        pet.colocar_data_nascimento(datetime_obj.date())
         try:
-            pet.atualizar_pet(**dados_sem_cpf)
             pet.salvar_pet()
         except:
-            return {'Error': 'erro ao alterar pet, erro de servidor'}, 500
+            return {'Error': 'erro de servidor'}, 500
         return {'messagem': 'alteração de pet feita com sucesso'}, 200
 
 

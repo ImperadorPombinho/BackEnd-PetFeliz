@@ -1,8 +1,10 @@
 from flask import Flask, jsonify
 from flask_restful import Api
+from resources.adota import Adota
 from resources.carrinho import Carrinho
 from resources.cliente import Cadastro, Cliente, Clientes, Login, Logout
 from resources.compra import Compra
+from resources.pet import Pet, Pets
 from resources.produto import Produtos, Produto
 from excel_dados import preenncher_banco
 from blacklist import BLACKLIST
@@ -41,6 +43,9 @@ api.add_resource(Clientes, '/clientes')
 api.add_resource(Cliente, '/clientes/<string:cpf>')
 api.add_resource(Carrinho, '/produto/carrinho/<string:codigo_carrinho>')
 api.add_resource(Compra, '/carrinho/<string:codigo_carrinho>/compra')
+api.add_resource(Pets, '/pets')
+api.add_resource(Pet, '/pet/<string:cadastro_pet>')
+api.add_resource(Adota, '/cliente/<string:cpf_cliente>/adota/pet/<string:cadastro_pet>')
 
 #http://127.0.0.1:5000/ -> rota raiz
 
