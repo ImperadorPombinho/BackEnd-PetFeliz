@@ -30,5 +30,5 @@ class InterfaceRegrasNegocio:
     def checar_regra_1(cls):
         connect = sqlite3.connect('banco.db')
         cursor = connect.cursor()
-        cursor.execute(InterfaceRegrasNegocio.regra_1)
+        cursor.execute(InterfaceRegrasNegocio.regra_3)
     

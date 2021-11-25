@@ -7,17 +7,14 @@ from sql_alchemy import banco
 class CompraModel(banco.Model):
     __tablename__ = 'TB_COMPRA'
     compra_id = banco.Column(banco.Integer(), primary_key=True)
-    data_compra = banco.Column(banco.DATE(tomezone=True))
-    horario_compra = banco.Column(banco.TIMESTAMP(timezone=True))
-    valor_compra = banco.Column(banco.Float(precision=2))
     codigo_carrinho = banco.Column(banco.String(10), banco.ForeignKey('TB_CARRINHO.codigo_carrinho'))
+    valor_compra = banco.Column(banco.Float(precision=2))
 
 
-    def __init__(self, codigo_carrinho, data_compra, horario_compra):
-        self.data_compra = data_compra
-        self.horario_compra = horario_compra
-        self.valor_compra = 0
+    def __init__(self, codigo_carrinho):
         self.codigo_carrinho = codigo_carrinho
+        self.valor_compra = 0
+
 
     @classmethod
     def encontrar_compra_por_id(cls, compra_id):
@@ -47,6 +44,8 @@ class CompraModel(banco.Model):
         #função que realiza compra com carrinho
         desconto = 0
         carrinho = CarrinhoModel.encontrar_carrinho_por_codigo(self.codigo_carrinho)
+        if not carrinho:
+            return {'Error': 'carrinho nao encontrado'}, 404
         lista_produtos = carrinho.pegar_todos_os_produtos()
         precos_produtos = 0
         quantidades_produto = 0
@@ -69,6 +68,14 @@ class CompraModel(banco.Model):
                     cliente.salvar_cliente()
                 except:
                     return {'Error': 'erro de servidor'}, 500
+                for produto in lista_produtos:
+                    quantidade = produto.quantidade
+                    produto.estoque -= quantidade
+                    try:
+                        produto.salvar_produto()
+                    except:
+                        return {'Error': 'erro de servidor'}, 500
+                self.salvar_compra()
                 return {'messagem': f'compra do cliente {cliente.cpf} efetuada com sucesso'}, 200
             else:
                 return {'messagem': f'creditos faltando'}, 200
@@ -78,8 +85,6 @@ class CompraModel(banco.Model):
     def json(self):
         return {
             'compra_id': self.compra_id,
-            'data_compra': self.data_compra,
-            'horario_compra': self.horario_compra,
             'valor_compra': self.valor_compra,
             'codigo_carrinho': self.codigo_carrinho
         }

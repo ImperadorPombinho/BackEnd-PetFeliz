@@ -12,6 +12,7 @@ class ClienteModel(banco.Model):
     senha = banco.Column(banco.String(74))
     quantidade_gasta = banco.Column(banco.Float(precision=2))
     creditos = banco.Column(banco.Float(precision=2))
+    pets = banco.relationship('PetModel')
 
     def __init__(self, cpf, nome, rg, telefone, endereco, email, senha, creditos):
         self.cpf = cpf
@@ -60,6 +61,7 @@ class ClienteModel(banco.Model):
         banco.session.commit()
 
     def deletar_cliente(self):
+        [pet.deletar_pet() for pet in self.pets]
         banco.session.delete(self)
         banco.session.commit()
     
@@ -84,6 +86,7 @@ class ClienteModel(banco.Model):
             'email': self.email,
             'senha': self.senha,
             'quantidade_gasta': self.quantidade_gasta,
-            'creditos': self.creditos
+            'creditos': self.creditos,
+            'pets': [pet.json() for pet in self.pets]
         }
 
