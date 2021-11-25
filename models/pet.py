@@ -1,6 +1,7 @@
 from sql_alchemy import banco
 
 class PetModel(banco.Model):
+    __tablename__ = 'TB_PET'
     cadastro_pet = banco.Column(banco.String(10), primary_key=True)
     nome = banco.Column(banco.String(80))
     data_nascimento = banco.Column(banco.DateTime(timezone=True))
