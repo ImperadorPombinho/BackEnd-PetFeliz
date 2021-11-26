@@ -27,8 +27,8 @@ class InterfaceRegrasNegocio:
 
 
     @classmethod
-    def checar_regra_1(cls):
+    def checar_regra_1(cls, data_atendimento):
         connect = sqlite3.connect('banco.db')
         cursor = connect.cursor()
-        cursor.execute(InterfaceRegrasNegocio.regra_3)
-    
+        resultado = cursor.execute(InterfaceRegrasNegocio.regra_3, [data_atendimento])
+        return resultado
