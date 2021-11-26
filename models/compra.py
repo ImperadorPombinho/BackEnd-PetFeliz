@@ -54,11 +54,12 @@ class CompraModel(banco.Model):
             quantidades_produto += produto.quantidade
 
         valor_total_compra = precos_produtos * quantidades_produto
-        #realizar regra aq
+        cliente = ClienteModel.encontrar_cliente_por_cpf(carrinho.cpf_cliente)
+        #realizar regra 3 aqui
         valor_com_desconto = valor_total_compra * desconto
 
         self.valor_compra = valor_total_compra - valor_com_desconto
-        cliente = ClienteModel.encontrar_cliente_por_cpf(carrinho.cpf_cliente)
+        
 
         if cliente:
             if cliente.creditos >= self.valor_compra:

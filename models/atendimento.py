@@ -55,11 +55,11 @@ class AtendimentoModel(banco.Model):
 
     def cadastrar_atendimento(self):
         self.verificar_horario(self.hora_entrada)
-        #executar Regra 1 aqui
+        #realizar regra_1 aqui
+        #if profissional == 'Terminou profissionais':
+        #   return {'Error': 'todos os profissionais estão trabalhando'}, 404
         servico = ServicoModel.encontrar_servico_pelo_tipo(self.tipo_servico)
-        #executar regra 2
-        if not self.valor:
-            self.valor = servico.preco
+        #executar regra 2, ela retorna ja o preço
         
         self.salvar_atendimento()
         return {'messagem': 'atendimento marcado com sucesso'}, 200

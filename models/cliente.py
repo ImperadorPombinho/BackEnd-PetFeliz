@@ -10,6 +10,7 @@ class ClienteModel(banco.Model):
     endereco = banco.Column(banco.String(120))
     email = banco.Column(banco.String(50))
     senha = banco.Column(banco.String(74))
+    nivel = banco.Column(banco.String(80))
     quantidade_gasta = banco.Column(banco.Float(precision=2))
     creditos = banco.Column(banco.Float(precision=2))
     pets = banco.relationship('PetModel')
@@ -22,6 +23,7 @@ class ClienteModel(banco.Model):
         self.endereco = endereco
         self.email = email
         self.senha = senha
+        self.nivel = 'Sem nível'
         self.quantidade_gasta = 0
         self.creditos = creditos
 
@@ -85,6 +87,7 @@ class ClienteModel(banco.Model):
             'endereço': self.endereco,
             'email': self.email,
             'senha': self.senha,
+            'nível': self.nivel,
             'quantidade_gasta': self.quantidade_gasta,
             'creditos': self.creditos,
             'pets': [pet.json() for pet in self.pets]

@@ -10,6 +10,8 @@ class InterfaceRegrasNegocio:
         connect = sqlite3.connect('banco.db')
         cursor = connect.cursor()
         resultado = cursor.execute(InterfaceRegrasNegocio.regra_1, [cliente.quantidade_gasta, cliente.cpf])
+        cliente.nivel = resultado
+        cliente.salvar_cliente()
         if cliente.nivel == 'Sem nivel':
             return 0
         elif cliente.nivel == 'Filhote':
@@ -23,8 +25,8 @@ class InterfaceRegrasNegocio:
     def checar_regra_2(cls, codigo, tipo):
         connect = sqlite3.connect('banco.db')
         cursor = connect.cursor()
-        cursor.execute(InterfaceRegrasNegocio.regra_2, [codigo, tipo])
-
+        resultado = cursor.execute(InterfaceRegrasNegocio.regra_2, [codigo, tipo])
+        return resultado
 
     @classmethod
     def checar_regra_1(cls, data_atendimento):
