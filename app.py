@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_restful import Api
+from banco_regras import criar_regras
 from resources.adota import Adota
 from resources.atendimento import Atendimento, Atendimentos, FazendoAtendimento
 from resources.carrinho import Carrinho
@@ -11,7 +12,7 @@ from excel_dados import preenncher_banco
 from blacklist import BLACKLIST
 from flask_jwt_extended import JWTManager
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:0@localhost:3306/the_drungas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'DontTellAnyone'
 app.config['JWT_BLACKLIST_ENABLED'] = True
@@ -23,6 +24,7 @@ jwt = JWTManager(app)
 def criar_banco():
     banco.create_all()
     preenncher_banco()
+    criar_regras()
     
 @jwt.token_in_blocklist_loader
 def verifica_blacklist(self, token):

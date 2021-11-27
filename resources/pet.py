@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-import sqlite3
+import mysql.connector
 from models.cliente import ClienteModel
 import datetime
 
@@ -9,21 +9,24 @@ from models.pet import PetModel
 class Pets(Resource):
     def get(self):
         consulta_todos_pets = "SELECT * FROM TB_PET"
-        connect = sqlite3.connect('banco.db')
+        connect = mysql.connector.connect(user='root', password='0',
+                                      database='the_drungas')
         cursor = connect.cursor()
-        resultado = cursor.execute(consulta_todos_pets)
+        cursor.execute(consulta_todos_pets)
+        resultado = cursor.fetchall()
         pets = []
-        for linha in resultado:
-            pets.append(
-                {
-                    'cadastro': linha[0],
-                    'nome': linha[1],
-                    'data_nascimento': linha[2],
-                    'raca': linha[3],
-                    'especie': linha[4],
-                    'cpf_dono': linha[5]
-                }
-            )
+        if resultado:
+            for linha in resultado:
+                pets.append(
+                    {
+                        'cadastro': linha[0],
+                        'nome': linha[1],
+                        'data_nascimento': linha[2].isoformat(),
+                        'raca': linha[3],
+                        'especie': linha[4],
+                        'cpf_dono': linha[5]
+                    }
+                )
         return {'pets': pets}, 200
 
 

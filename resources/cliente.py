@@ -3,7 +3,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 from flask_jwt_extended.utils import get_jwt
 from werkzeug.security import safe_str_cmp
 from blacklist import BLACKLIST
-import sqlite3
+import mysql.connector
 from models.cliente import ClienteModel
 
 argumentos = reqparse.RequestParser()
@@ -18,23 +18,26 @@ argumentos.add_argument('creditos', type=float, required=True, help="creditos é
 class Clientes(Resource):
     def get(self):
         consulta_todos_clientes = "SELECT CPF, NOME, RG, TELEFONE, ENDERECO, EMAIL, QUANTIDADE_GASTA, CREDITOS FROM TB_CLIENTE"
-        connection = sqlite3.connect('banco.db')
-        cursor = connection.cursor()
-        resultado_consulta = cursor.execute(consulta_todos_clientes)
+        connect = mysql.connector.connect(user='root', password='0',
+                                      database='the_drungas')
+        cursor = connect.cursor()
+        cursor.execute(consulta_todos_clientes)
+        resultado_consulta = cursor.fetchall()
         clientes = []
-        for linha in resultado_consulta:
-            clientes.append(
-                {
-                    'cpf': linha[0],
-                    'nome': linha[1],
-                    'rg': linha[2],
-                    'telefone': linha[3],
-                    'endereco': linha[4],
-                    'email': linha[5],
-                    'quantidade_gasta': linha[6],
-                    'creditos': linha[7]
-                }
-            )
+        if resultado_consulta:
+            for linha in resultado_consulta:
+                clientes.append(
+                    {
+                        'cpf': linha[0],
+                        'nome': linha[1],
+                        'rg': linha[2],
+                        'telefone': linha[3],
+                        'endereco': linha[4],
+                        'email': linha[5],
+                        'quantidade_gasta': linha[6],
+                        'creditos': linha[7]
+                    }
+                )
 
         return {'clientes': clientes}, 200
 

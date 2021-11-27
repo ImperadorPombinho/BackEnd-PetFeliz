@@ -1,36 +1,47 @@
-import sqlite3
+import mysql.connector
 
 
 class InterfaceRegrasNegocio:
-    regra_1 = 'EXECUTE REGRA_1'
-    regra_2 = 'EXECUTE REGRA_2'
-    regra_3 = 'EXECUTE REGRA_3'
+    regra_1 = 'SET @REGRA1 = REGRA_1(%s); \
+                SELECT @REGRA1;'
+    regra_2 = 'SET @REGRA2 = REGRA_2(%s, %s); \
+                SELECT @REGRA2;'
+    regra_3 = 'SET @REGRA3 = REGRA_3(%s); \
+                SELECT @REGRA3;'
     @classmethod
-    def checar_regra_3(cls, cliente):
-        connect = sqlite3.connect('banco.db')
+    def checar_regra_3(cls, quantidade_gasta):
+        connect = mysql.connector.connect(user='root', password='0',
+                                      host='localhost:3306',
+                                      database='the_drungas')
         cursor = connect.cursor()
-        resultado = cursor.execute(InterfaceRegrasNegocio.regra_1, [cliente.quantidade_gasta, cliente.cpf])
-        cliente.nivel = resultado
-        cliente.salvar_cliente()
-        if cliente.nivel == 'Sem nivel':
-            return 0
-        elif cliente.nivel == 'Filhote':
-            return 0.05
-        elif cliente.nivel == 'Mascote':
-            return 0.10
+        cursor.execute(InterfaceRegrasNegocio.regra_1, [quantidade_gasta])
+        resultado = cursor.fetchall()
+        nivel = resultado[0][0]
+        if nivel == 'Sem nivel':
+            return 0, nivel
+        elif nivel == 'Filhote':
+            return 0.05, nivel
+        elif nivel == 'Mascote':
+            return 0.10, nivel
         else:
-            return 0.15
+            return 0.15, nivel
     
     @classmethod
     def checar_regra_2(cls, codigo, tipo):
-        connect = sqlite3.connect('banco.db')
+        connect = mysql.connector.connect(user='root', password='0',
+                                      host='localhost:3306',
+                                      database='the_drungas')
         cursor = connect.cursor()
-        resultado = cursor.execute(InterfaceRegrasNegocio.regra_2, [codigo, tipo])
-        return resultado
+        cursor.execute(InterfaceRegrasNegocio.regra_2, [codigo, tipo])
+        resultado = cursor.fetchall()
+        return resultado[0][0]
 
     @classmethod
     def checar_regra_1(cls, data_atendimento):
-        connect = sqlite3.connect('banco.db')
+        connect = mysql.connector.connect(user='root', password='0',
+                                      host='localhost:3306',
+                                      database='the_drungas')
         cursor = connect.cursor()
-        resultado = cursor.execute(InterfaceRegrasNegocio.regra_3, [data_atendimento])
-        return resultado
+        cursor.execute(InterfaceRegrasNegocio.regra_3, [data_atendimento])
+        resultado = cursor.fetchall()
+        return resultado[0][0]

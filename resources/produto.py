@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-import sqlite3
+import mysql.connector
 
 from models.produto import ProdutoModel
 
@@ -9,9 +9,11 @@ class Produtos(Resource):
 
     def get(self):
         consulta = "SELECT * FROM TB_PRODUTO"
-        connection = sqlite3.connect('banco.db')
-        cursor = connection.cursor()
-        resultado = cursor.execute(consulta)
+        connect = mysql.connector.connect(user='root', password='0',
+                                      database='the_drungas')
+        cursor = connect.cursor()
+        cursor.execute(consulta)
+        resultado = cursor.fetchall()
         produtos = []
 
         for linha in resultado:
@@ -25,7 +27,6 @@ class Produtos(Resource):
                     'quantidade': linha[5]
                 }
             )
-
         return {'produtos': produtos}, 200
 
 

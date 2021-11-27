@@ -20,20 +20,18 @@ class Carrinho(Resource):
     
     def post(self, codigo_carrinho):
         dados = Carrinho.carrinho_dados.parse_args()
-        produto = ProdutoModel.encontrar_produto_por_codigo(dados['codigo'])
-        if not produto:
-            return {'Error': f'produto {dados["codigo"]} não encontrado '}, 404
-        try:
-            produto.atualizar_produto(quantidade=dados['quantidade'], codigo_carrinho=codigo_carrinho, **produto.json()) 
-            produto.salvar_produto()
-        except:
-            return {'Error': 'produto nao atualizado'}, 500     
         if not CarrinhoModel.encontrar_carrinho_por_codigo(codigo_carrinho):
             carrinho = CarrinhoModel(codigo_carrinho, dados['cpf_cliente'])
             try:
                 carrinho.salvar_carrinho()
             except:
                 return  {'Error': 'erro de servidor'}, 500
+        produto = ProdutoModel.encontrar_produto_por_codigo(dados['codigo'])
+
+        if not produto:
+            return {'Error': f'produto {dados["codigo"]} não encontrado '}, 404
+        produto.atualizar_produto(quantidade=dados['quantidade'], codigo_carrinho=codigo_carrinho, **produto.json()) 
+        produto.salvar_produto()
         return {'messagem': 'produto adicionado no carrinho'}, 200 
 
     def delete(self, codigo_carrinho):

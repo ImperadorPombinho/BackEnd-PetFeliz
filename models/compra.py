@@ -55,7 +55,9 @@ class CompraModel(banco.Model):
 
         valor_total_compra = precos_produtos * quantidades_produto
         cliente = ClienteModel.encontrar_cliente_por_cpf(carrinho.cpf_cliente)
-        #realizar regra 3 aqui
+        tupla = InterfaceRegrasNegocio.checar_regra_3(cliente.quantidade_gasta)
+        desconto = tupla[0]
+        cliente.nivel = tupla[1]
         valor_com_desconto = valor_total_compra * desconto
 
         self.valor_compra = valor_total_compra - valor_com_desconto

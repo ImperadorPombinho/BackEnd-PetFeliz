@@ -1,3 +1,4 @@
+from models.interfaces import InterfaceRegrasNegocio
 from models.servico import ServicoModel
 from sql_alchemy import banco
 from sqlalchemy import types
@@ -55,12 +56,12 @@ class AtendimentoModel(banco.Model):
 
     def cadastrar_atendimento(self):
         self.verificar_horario(self.hora_entrada)
-        #realizar regra_1 aqui
-        #if profissional == 'Terminou profissionais':
-        #   return {'Error': 'todos os profissionais estão trabalhando'}, 404
+        profissional_cpf = InterfaceRegrasNegocio.checar_regra_1(self.data)
+        if profissional_cpf == '0':
+            return {'Error': 'todos os profissionais estão trabalhando'}, 404
+        self.cpf_profissional = profissional_cpf
         servico = ServicoModel.encontrar_servico_pelo_tipo(self.tipo_servico)
-        #executar regra 2, ela retorna ja o preço
-        
+        self.valor = InterfaceRegrasNegocio.checar_regra_2(self.cadastro_pet, servico.tipo_servico)
         self.salvar_atendimento()
         return {'messagem': 'atendimento marcado com sucesso'}, 200
 
