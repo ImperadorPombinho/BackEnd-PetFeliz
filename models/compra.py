@@ -47,23 +47,19 @@ class CompraModel(banco.Model):
         if not carrinho:
             return {'Error': 'carrinho nao encontrado'}, 404
         lista_produtos = carrinho.pegar_todos_os_produtos()
-        precos_produtos = 0
-        quantidades_produto = 0
+        valor = 0
+        valor_total_compra = 0
         for produto in lista_produtos:
-            precos_produtos += produto.preco
-            quantidades_produto += produto.quantidade
-
-        valor_total_compra = precos_produtos * quantidades_produto
+            valor = produto.preco * produto.quantidade
+            valor_total_compra += valor
         cliente = ClienteModel.encontrar_cliente_por_cpf(carrinho.cpf_cliente)
-        tupla = InterfaceRegrasNegocio.checar_regra_3(cliente.quantidade_gasta)
-        desconto = tupla[0]
-        cliente.nivel = tupla[1]
-        valor_com_desconto = valor_total_compra * desconto
-
-        self.valor_compra = valor_total_compra - valor_com_desconto
-        
-
         if cliente:
+            tupla = InterfaceRegrasNegocio.checar_regra_3(cliente.quantidade_gasta)
+            desconto = tupla[0]
+            print(desconto)
+            cliente.nivel = tupla[1]
+            valor_com_desconto = valor_total_compra * desconto
+            self.valor_compra = valor_total_compra - valor_com_desconto
             if cliente.creditos >= self.valor_compra:
                 cliente.creditos -= self.valor_compra
                 cliente.quantidade_gasta += self.valor_compra
@@ -77,7 +73,7 @@ class CompraModel(banco.Model):
                     try:
                         produto.salvar_produto()
                     except:
-                        return {'Error': 'erro de servidor'}, 500
+                        return {'Error': 'erro de servidorrrr'}, 500
                 self.salvar_compra()
                 return {'messagem': f'compra do cliente {cliente.cpf} efetuada com sucesso'}, 200
             else:

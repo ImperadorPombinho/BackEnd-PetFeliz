@@ -43,11 +43,11 @@ class AtendimentoModel(banco.Model):
         hora_entrada_formatada = str(horario_de_entrada)
         if hora_entrada_formatada == '14:00:00':
             hora_saida = '16:00:00'
-            datetime_obj = datetime.datetime.strptime(hora_saida, format)
+            datetime_obj = datetime.datetime.strptime(hora_saida, formato)
             self.hora_saida = datetime_obj.time()
         elif hora_entrada_formatada == '17:00:00':
             hora_saida = '19:00:00'
-            datetime_obj = datetime.datetime.strptime(hora_saida, horario_de_entrada)
+            datetime_obj = datetime.datetime.strptime(hora_saida,formato)
             self.hora_saida = datetime_obj.time()
         elif hora_entrada_formatada == '20:00:00':
             hora_saida = '22:00:00'
