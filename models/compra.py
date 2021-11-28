@@ -49,9 +49,15 @@ class CompraModel(banco.Model):
         lista_produtos = carrinho.pegar_todos_os_produtos()
         valor = 0
         valor_total_compra = 0
+        global nao_tem_estoque_no_produto
+        nao_tem_estoque_no_produto = False
         for produto in lista_produtos:
+            if produto.estoque <= 0:
+                nao_tem_estoque_no_produto = True
             valor = produto.preco * produto.quantidade
             valor_total_compra += valor
+        if nao_tem_estoque_no_produto:
+            return {'Error': 'nao tem estoque no produto'}, 404
         cliente = ClienteModel.encontrar_cliente_por_cpf(carrinho.cpf_cliente)
         if cliente:
             tupla = InterfaceRegrasNegocio.checar_regra_3(cliente.quantidade_gasta)

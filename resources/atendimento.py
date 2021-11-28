@@ -18,6 +18,8 @@ class FazendoAtendimento(Resource):
         datetime_obj_2 = datetime.datetime.strptime(dados['data'], formato_data)
         atendimento = AtendimentoModel(atendimento_codigo, datetime_obj.time(), datetime_obj_2.date(), cadastro_pet, tipo_servico)
         resultado_json = atendimento.cadastrar_atendimento()
+        if resultado_json[1] == 200:
+            atendimento.salvar_atendimento()
         return resultado_json
 
 

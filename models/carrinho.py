@@ -16,7 +16,6 @@ class CarrinhoModel(banco.Model):
         banco.session.commit()
     
     def deletar_carrinho(self):
-        [produto.deletar_produto() for produto in self.produtos]
         banco.session.delete(self)
         banco.session.commit()
 

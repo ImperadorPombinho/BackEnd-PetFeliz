@@ -26,8 +26,6 @@ class Carrinho(Resource):
                 carrinho.salvar_carrinho()
             except:
                 return  {'Error': 'erro de servidor'}, 500
-        else:
-            return {'Error': 'não podemos criar um carrinho, já existe um deste tipo'}, 500
         produto = ProdutoModel.encontrar_produto_por_codigo(dados['codigo'])
         if not produto:
             return {'Error': f'produto {dados["codigo"]} não encontrado '}, 404

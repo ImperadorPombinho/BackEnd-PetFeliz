@@ -37,6 +37,8 @@ def token_de_acesso_invalidado(jwt_header, jwt_payload):
     return jsonify({'messagem': 'voce ja esta deslogado'}), 401
 
 
+
+
 #rotas da api
 api.add_resource(Produtos, '/produtos')
 api.add_resource(Produto, '/produto/<string:codigo>')
@@ -55,6 +57,7 @@ api.add_resource(Atendimento, '/atendimento/<string:atendimento_codigo>')
 api.add_resource(PetsNaoAdotados, '/petsnaoadotados')
 api.add_resource(Download, '/downloads/<nome_arquivo>')
 #http://127.0.0.1:5000/ -> rota raiz
+
 
 # main do projeto
 if __name__ == '__main__':
