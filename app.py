@@ -6,6 +6,7 @@ from resources.atendimento import Atendimento, FazendoAtendimento
 from resources.carrinho import Carrinho
 from resources.cliente import Cadastro, Cliente, Clientes, Login, Logout
 from resources.compra import Compra
+from resources.download import Download
 from resources.pet import Pet, Pets
 from resources.produto import Produtos, Produto
 from excel_dados import preenncher_banco
@@ -52,6 +53,7 @@ api.add_resource(Adota, '/cliente/<string:cpf_cliente>/adota/pet/<string:cadastr
 api.add_resource(FazendoAtendimento, '/pet/<string:cadastro_pet>/atendimento/servico/<string:tipo_servico>')
 api.add_resource(Atendimento, '/atendimento/<string:atendimento_codigo>')
 api.add_resource(PetsNaoAdotados, '/petsnaoadotados')
+api.add_resource(Download, '/downloads/<nome_arquivo>')
 #http://127.0.0.1:5000/ -> rota raiz
 
 # main do projeto
