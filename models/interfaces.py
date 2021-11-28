@@ -15,8 +15,6 @@ class InterfaceRegrasNegocio:
         pegar_resultado = "SELECT @REGRA3"
         cursor.execute(pegar_resultado)
         resultado = cursor.fetchall()
-        print(resultado)
-        print(resultado[0][0])
         nivel = str(resultado[0][0])
         if nivel == 'Sem Nivel':
             return 0, nivel

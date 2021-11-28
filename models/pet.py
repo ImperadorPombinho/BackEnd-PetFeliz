@@ -1,3 +1,4 @@
+import sqlalchemy
 from sql_alchemy import banco
 from sqlalchemy import types
 class PetModel(banco.Model):
@@ -8,12 +9,15 @@ class PetModel(banco.Model):
     raca = banco.Column(banco.String(80))
     especie = banco.Column(banco.String(80))
     cpf_cliente = banco.Column(banco.String(12), banco.ForeignKey('TB_CLIENTE.cpf'))
+    eh_adotado = banco.Column(banco.Boolean())
 
     def __init__(self, cadastro_pet, nome, raca, especie):
         self.cadastro_pet = cadastro_pet
         self.nome = nome
         self.raca = raca
         self.especie = especie
+        self.eh_adotado = False
+        
 
 
     @classmethod
@@ -29,6 +33,9 @@ class PetModel(banco.Model):
         if pet:
             return pet
         return None
+
+    def colocar_como_adotado(self, eh_adotado):
+        self.eh_adotado = eh_adotado
 
     def salvar_pet(self):
         banco.session.add(self)
@@ -56,5 +63,6 @@ class PetModel(banco.Model):
             'data_nascimento': self.data_nascimento.isoformat(),
             'raca': self.raca,
             'especie': self.especie,
-            'cpf_dono': self.cpf_cliente
+            'cpf_dono': self.cpf_cliente,
+            'eh_adotado': self.eh_adotado
         }

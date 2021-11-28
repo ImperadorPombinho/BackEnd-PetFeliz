@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
 from flask_restful import Api
 from banco_regras import criar_regras
-from resources.adota import Adota
-from resources.atendimento import Atendimento, Atendimentos, FazendoAtendimento
+from resources.adota import Adota, PetsNaoAdotados
+from resources.atendimento import Atendimento, FazendoAtendimento
 from resources.carrinho import Carrinho
 from resources.cliente import Cadastro, Cliente, Clientes, Login, Logout
 from resources.compra import Compra
@@ -50,9 +50,8 @@ api.add_resource(Pets, '/pets')
 api.add_resource(Pet, '/pet/<string:cadastro_pet>')
 api.add_resource(Adota, '/cliente/<string:cpf_cliente>/adota/pet/<string:cadastro_pet>')
 api.add_resource(FazendoAtendimento, '/pet/<string:cadastro_pet>/atendimento/servico/<string:tipo_servico>')
-api.add_resource(Atendimento, '/atendimento/<int:atendimento_id>')
-api.add_resource(Atendimentos, '/atendimentos')
-
+api.add_resource(Atendimento, '/atendimento/<string:atendimento_codigo>')
+api.add_resource(PetsNaoAdotados, '/petsnaoadotados')
 #http://127.0.0.1:5000/ -> rota raiz
 
 # main do projeto

@@ -45,6 +45,8 @@ class Pet(Resource):
         return {'Error': f'pet {cadastro_pet} não encontrado'}, 404
 
     def post(self, cadastro_pet):
+        if PetModel.encontrar_pet_por_cadastro(cadastro_pet):
+            return {'Error': 'pet jpa cadastrado'}, 406
         dados = Pet.pet_dados.parse_args()
         dados_sem_cpf_e_sem_data = {chave: valor for chave, valor in dados.items() if chave != 'cpf_cliente' and chave != 'data_nascimento' }
         if not ClienteModel.encontrar_cliente_por_cpf(dados['cpf_cliente']):
@@ -58,7 +60,7 @@ class Pet(Resource):
         except:
             return {'Error': 'erro de servidor'}, 500
             
-        return {'messagem': f'cadastro do pet {pet.nome} efetuado com sucesso'}, 200
+        return {'messagem': f'cadastro do pet {pet.nome} efetuado com sucesso'}, 201
     
     def put(self, cadastro_pet):
         dados = Pet.pet_dados.parse_args()

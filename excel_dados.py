@@ -60,6 +60,7 @@ def preenncher_banco():
 		pet = PetModel(*linha)
 		pet.colocar_data_nascimento(date_time)
 		pet.colocar_dono_do_pet(None)
+		pet.colocar_como_adotado(True)
 		pet.salvar_pet()
 
 	

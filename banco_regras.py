@@ -55,6 +55,9 @@ begin \
     IF @vCONT_ADOTADO > 0 AND @vCONT_ATENDIDO <= 0 THEN \
         SET vPRECO = 0; \
     END IF; \
+    IF vPRECO = 0 THEN \
+        DELETE FROM TB_ADOTA WHERE CADASTRO_PET = pCADASTRO; \
+    END IF;    \
     RETURN vPRECO; \
 end;"
 
