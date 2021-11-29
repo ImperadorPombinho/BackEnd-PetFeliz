@@ -115,4 +115,15 @@ class Logout(Resource):
     def post(self):
         jwt_id = get_jwt()['jti']
         BLACKLIST.add(jwt_id)
+        connect = mysql.connector.connect(user='root', password='0',
+                                      database='the_drungas')
+        cursor = connect.cursor()
+        consulta_deletar_produto = "DROP TABLE TB_PRODUTO"
+        consulta_deletar_pets = "DROP TABLE TB_PET"
+        consulta_deletar_profissionais = "DROP TABLE TB_PROFISSIONAL"
+        consulta_deletar_servicos = "DROP TABLE TB_SERVICO"
+        cursor.execute(consulta_deletar_produto)
+        cursor.execute(consulta_deletar_pets)
+        cursor.execute(consulta_deletar_profissionais)
+        cursor.execute(consulta_deletar_servicos)
         return {'messagem': 'você foi deslogado com sucesso'}, 200
