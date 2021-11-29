@@ -87,8 +87,8 @@ class AtendimentoModel(banco.Model):
         return {
             'atendimento_id': self.atendimento_id,
             'atendimento_codigo': self.atendimento_codigo,
-            'hora_entrada': self.hora_entrada.isoformat(),
-            'hora_saida': self.hora_saida.isoformat(),
+            'hora_entrada': str(self.hora_entrada),
+            'hora_saida': str(self.hora_saida),
             'data': self.data.isoformat(),
             'valor': self.valor,
             'cpf_profissional': self.cpf_profissional,
