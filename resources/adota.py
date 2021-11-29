@@ -1,9 +1,12 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required
 import datetime
 from models.adota import AdotaModel
 import mysql.connector
 
 class Adota(Resource):
+    
+    @jwt_required()
     def post(self, cpf_cliente, cadastro_pet):
         string = str(datetime.datetime.now().time().hour) + ':' + str(datetime.datetime.now().time().minute) + ':' + str(datetime.datetime.now().time().second)
         formato = '%H:%M:%S'

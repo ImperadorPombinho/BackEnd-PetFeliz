@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.carrinho import CarrinhoModel
 from models.produto import ProdutoModel
-
+from flask_jwt_extended import jwt_required
 
 
    
@@ -18,6 +18,7 @@ class Carrinho(Resource):
             return carrinho.json(), 200
         return {'Error': f'carrinho {codigo_carrinho} não encontrado'}, 404
     
+    @jwt_required()
     def post(self, codigo_carrinho):
         dados = Carrinho.carrinho_dados.parse_args()
         if not CarrinhoModel.encontrar_carrinho_por_codigo(codigo_carrinho):
@@ -32,7 +33,8 @@ class Carrinho(Resource):
         produto.atualizar_produto(quantidade=dados['quantidade'], codigo_carrinho=codigo_carrinho, **produto.json()) 
         produto.salvar_produto()
         return {'messagem': 'produto adicionado no carrinho'}, 200 
-
+    
+    @jwt_required()
     def delete(self, codigo_carrinho):
         carrinho = CarrinhoModel.encontrar_carrinho_por_codigo(codigo_carrinho)
         if carrinho:
