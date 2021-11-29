@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 from flask_jwt_extended.utils import get_jwt
 from werkzeug.security import safe_str_cmp
+from sql_alchemy import banco
 from blacklist import BLACKLIST
 import mysql.connector
 from models.cliente import ClienteModel
@@ -109,10 +110,9 @@ class Login(Resource):
         return {'Error': 'seu login ou senha estão incorretos'}, 401
 
 class Logout(Resource):
-    
     @jwt_required()
     def post(self):
-        
         jwt_id = get_jwt()['jti']
         BLACKLIST.add(jwt_id)
+        banco.drop_all()
         return {'messagem': 'você foi deslogado com sucesso'}, 200
