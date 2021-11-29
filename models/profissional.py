@@ -37,6 +37,6 @@ class ProfissionalModel(banco.Model):
             'nome': self.nome,
             'endereco': self.endereco,
             'telefone': self.telefone,
-            'data_nascimento': self.data_nascimento.isoformat()
+            'data_nascimento': str(self.data_nascimento)
         }
         

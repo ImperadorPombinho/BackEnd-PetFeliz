@@ -46,7 +46,7 @@ class Atendimento(Resource):
                             'atendimento_codigo': linha[1],
                             'hora_entrada': str(linha[2]),
                             'hora_saida': str(linha[3]),
-                            'data': linha[4].isoformat(),
+                            'data': str(linha[4]),
                             'valor': linha[5],
                             'cpf_profissional': linha[6],
                             'tipo_servico': linha[7]
@@ -68,7 +68,7 @@ class Atendimento(Resource):
                             'atendimento_codigo': linha[1],
                             'hora_entrada': str(linha[2]),
                             'hora_saida': str(linha[3]),
-                            'data': linha[4].isoformat(),
+                            'data': str(linha[4]),
                             'valor': linha[5],
                             'cpf_profissional': linha[6],
                             'tipo_servico': linha[7]

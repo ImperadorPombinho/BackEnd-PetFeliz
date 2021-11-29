@@ -47,7 +47,6 @@ class AtendimentoModel(banco.Model):
         cursor.execute(consulta_se_ja_tem_data, (data, horario_de_entrada, cadastro_pet))
         resultado = cursor.fetchall()
         tem_data = False
-        print(resultado)
         if resultado[0][0] == 0 and tem_data == False:
             tem_data = True
         if tem_data:
@@ -78,10 +77,11 @@ class AtendimentoModel(banco.Model):
         servico = ServicoModel.encontrar_servico_pelo_tipo(self.tipo_servico)
         if not servico:
             return {'Error': 'não existe esse serviço no catalogo'}, 404
+        pet = PetModel.encontrar_pet_por_cadastro(self.cadastro_pet)
+        if not pet:
+            return {'Error': 'não encontado o pet'}, 404
         self.valor = InterfaceRegrasNegocio.checar_regra_2(self.cadastro_pet, self.tipo_servico)
         return {'messagem': 'atendimento marcado com sucesso'}, 200
-
-
 
     def json(self):
         return {
@@ -89,7 +89,7 @@ class AtendimentoModel(banco.Model):
             'atendimento_codigo': self.atendimento_codigo,
             'hora_entrada': str(self.hora_entrada),
             'hora_saida': str(self.hora_saida),
-            'data': self.data.isoformat(),
+            'data': str(self.data),
             'valor': self.valor,
             'cpf_profissional': self.cpf_profissional,
             'tipo_servico': self.tipo_servico

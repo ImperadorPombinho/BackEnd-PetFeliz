@@ -60,7 +60,7 @@ class PetModel(banco.Model):
         return {
             'cadastro': self.cadastro_pet,
             'nome': self.nome,
-            'data_nascimento': self.data_nascimento.isoformat(),
+            'data_nascimento': str(self.data_nascimento),
             'raca': self.raca,
             'especie': self.especie,
             'cpf_dono': self.cpf_cliente,

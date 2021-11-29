@@ -25,7 +25,7 @@ class CompraModel(banco.Model):
     
     @classmethod
     def encontrar_compra_por_carrinho(cls, codigo_carrinho):
-        compra = cls.query.filter_by(codigo_carrinho=codigo_carrinho).first()
+        compra = cls.query.filter_by(codigo_carrinho=codigo_carrinho)
         if compra:
             return compra
         return None
@@ -62,10 +62,10 @@ class CompraModel(banco.Model):
         if cliente:
             tupla = InterfaceRegrasNegocio.checar_regra_3(cliente.quantidade_gasta)
             desconto = tupla[0]
-            print(desconto)
             cliente.nivel = tupla[1]
             valor_com_desconto = valor_total_compra * desconto
             self.valor_compra = valor_total_compra - valor_com_desconto
+            print(self.valor_compra)
             if cliente.creditos >= self.valor_compra:
                 cliente.creditos -= self.valor_compra
                 cliente.quantidade_gasta += self.valor_compra

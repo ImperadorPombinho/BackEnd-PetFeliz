@@ -60,8 +60,8 @@ class AdotaModel(banco.Model):
     def json(self):
         return {
             'adota_id': self.adota_id,
-            'data_adocao': self.data_adocao.isoformat(),
-            'horario_adocao': self.data_adocao.isoformat(),
+            'data_adocao': str(self.data_adocao),
+            'horario_adocao': str(self.data_adocao),
             'cadastro_pet': self.cadastro_pet,
             'cpf_cliente': self.cpf_cliente
         }

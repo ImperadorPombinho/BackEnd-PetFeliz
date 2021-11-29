@@ -6,7 +6,7 @@ class Compra(Resource):
     def get(self, codigo_carrinho):
         compra = CompraModel.encontrar_compra_por_carrinho(codigo_carrinho)
         if compra:
-            return compra.json(), 200
+            return [comp.json() for comp in compra], 200
         return {'Error': 'compra  não encontrada'}, 404
 
     def post(self, codigo_carrinho):
@@ -18,7 +18,8 @@ class Compra(Resource):
         compra = CompraModel.encontrar_compra_por_carrinho(codigo_carrinho)
         if compra:
             try:
-                compra.deletar_compra()
+                for comp in compra:
+                    comp.deletar_compra()
             except:
                 return {'Error': 'erro ao deletar conta, erro de servidor'}, 500
             return {'messagem': 'compra deletada com sucesso'}, 200

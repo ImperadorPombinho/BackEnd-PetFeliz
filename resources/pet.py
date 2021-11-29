@@ -21,7 +21,7 @@ class Pets(Resource):
                     {
                         'cadastro': linha[0],
                         'nome': linha[1],
-                        'data_nascimento': linha[2].isoformat(),
+                        'data_nascimento': str(linha[2]),
                         'raca': linha[3],
                         'especie': linha[4],
                         'cpf_dono': linha[5]
