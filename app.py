@@ -27,8 +27,7 @@ jwt = JWTManager(app)
 @app.before_first_request
 def criar_banco():
     banco.create_all()
-    preenncher_banco()
-    criar_regras()
+
 
     
 @jwt.token_in_blocklist_loader
