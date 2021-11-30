@@ -18,8 +18,9 @@ argumentos.add_argument('creditos', type=float, required=True, help="creditos é
 class Clientes(Resource):
     def get(self):
         consulta_todos_clientes = "SELECT CPF, NOME, RG, TELEFONE, ENDERECO, EMAIL, QUANTIDADE_GASTA, CREDITOS FROM TB_CLIENTE"
-        connect = mysql.connector.connect(user='root', password='0',
-                                      database='the_drungas')
+        connect = mysql.connector.connect(user='xsl40cyoa6lt6veb', password='ovg5zexqjxozoggq',  
+                                      host='yjo6uubt3u5c16az.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306',
+                                      database='f9p7m5j30z3y2jap')
         cursor = connect.cursor()
         cursor.execute(consulta_todos_clientes)
         resultado_consulta = cursor.fetchall()
@@ -115,15 +116,4 @@ class Logout(Resource):
     def post(self):
         jwt_id = get_jwt()['jti']
         BLACKLIST.add(jwt_id)
-        connect = mysql.connector.connect(user='root', password='0',
-                                      database='the_drungas')
-        cursor = connect.cursor()
-        consulta_deletar_produto = "DROP TABLE TB_PRODUTO"
-        consulta_deletar_pets = "DROP TABLE TB_PET"
-        consulta_deletar_profissionais = "DROP TABLE TB_PROFISSIONAL"
-        consulta_deletar_servicos = "DROP TABLE TB_SERVICO"
-        cursor.execute(consulta_deletar_produto)
-        cursor.execute(consulta_deletar_pets)
-        cursor.execute(consulta_deletar_profissionais)
-        cursor.execute(consulta_deletar_servicos)
         return {'messagem': 'você foi deslogado com sucesso'}, 200

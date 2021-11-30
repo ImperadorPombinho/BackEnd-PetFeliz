@@ -34,8 +34,9 @@ class Atendimento(Resource):
             formato = '%d/%m/%Y'
             datetime_obj = datetime.datetime.strptime(dados['data_atendimento'], formato)
             datas = datetime.timedelta.resolution
-            connect = mysql.connector.connect(user='root', password='0',
-                                      database='the_drungas')
+            connect = mysql.connector.connect(user='xsl40cyoa6lt6veb', password='ovg5zexqjxozoggq',  
+                                      host='yjo6uubt3u5c16az.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306',
+                                      database='f9p7m5j30z3y2jap')
             cursor = connect.cursor()
             consulta_com_data =  "SELECT * FROM TB_ATENDIMENTO WHERE DATA = %s AND ATENDIMENTO_CODIGO = %s"
             cursor.execute(consulta_com_data, (datetime_obj.date(), atendimento_codigo))
@@ -57,8 +58,9 @@ class Atendimento(Resource):
                     )
             return {'messagem': lista_atendimento}, 200
         else:   
-            connect = mysql.connector.connect(user='root', password='0',
-                                      database='the_drungas')
+            connect = mysql.connector.connect(user='xsl40cyoa6lt6veb', password='ovg5zexqjxozoggq',  
+                                      host='yjo6uubt3u5c16az.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306',
+                                      database='f9p7m5j30z3y2jap')
             cursor = connect.cursor()
             consulta_sem_data =  "SELECT * FROM TB_ATENDIMENTO WHERE ATENDIMENTO_CODIGO = %s"
             cursor.execute(consulta_sem_data, (atendimento_codigo,))

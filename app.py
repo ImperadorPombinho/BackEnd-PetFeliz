@@ -15,7 +15,7 @@ from sql_alchemy import banco
 from flask_jwt_extended import JWTManager
 app = Flask(__name__)
 banco.init_app(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:0@localhost:3306/the_drungas'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://xsl40cyoa6lt6veb:ovg5zexqjxozoggq@yjo6uubt3u5c16az.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/f9p7m5j30z3y2jap'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'DontTellAnyone'
 app.config['JWT_BLACKLIST_ENABLED'] = True
