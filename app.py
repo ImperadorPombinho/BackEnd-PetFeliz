@@ -11,8 +11,10 @@ from resources.pet import Pet, Pets
 from resources.produto import Produtos, Produto
 from excel_dados import preenncher_banco
 from blacklist import BLACKLIST
+from sql_alchemy import banco
 from flask_jwt_extended import JWTManager
 app = Flask(__name__)
+banco.init_app(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:0@localhost:3306/the_drungas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'DontTellAnyone'
@@ -59,9 +61,4 @@ api.add_resource(Download, '/downloads/<nome_arquivo>')
 #http://127.0.0.1:5000/ -> rota raiz
 
 
-# main do projeto
-if __name__ == '__main__':
-    from sql_alchemy import banco
-    banco.init_app(app)
-    app.run(debug=True)
 
