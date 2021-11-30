@@ -11,10 +11,10 @@ from resources.pet import Pet, Pets
 from resources.produto import Produtos, Produto
 from excel_dados import preenncher_banco
 from blacklist import BLACKLIST
-from sql_alchemy import banco
+
 from flask_jwt_extended import JWTManager
 app = Flask(__name__)
-banco.init_app(app)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://xsl40cyoa6lt6veb:ovg5zexqjxozoggq@yjo6uubt3u5c16az.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/f9p7m5j30z3y2jap'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'DontTellAnyone'
@@ -60,5 +60,8 @@ api.add_resource(PetsNaoAdotados, '/petsnaoadotados')
 api.add_resource(Download, '/downloads/<nome_arquivo>')
 #http://127.0.0.1:5000/ -> rota raiz
 
-
+if __name__ == '__main__':
+    from sql_alchemy import banco
+    banco.init_app(app)
+    app.run()
 
