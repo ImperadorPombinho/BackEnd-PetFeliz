@@ -7,6 +7,6 @@ from flask_jwt_extended import jwt_required
 
 class Download(Resource):
     
-    @jwt_required()
+    
     def get(self, nome_arquivo):
         return send_from_directory(DIRETORIO_DOWNLOAD, nome_arquivo, as_attachment=True)

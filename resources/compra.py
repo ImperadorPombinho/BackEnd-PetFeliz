@@ -8,13 +8,14 @@ class Compra(Resource):
         if compra:
             return [comp.json() for comp in compra], 200
         return {'Error': 'compra  não encontrada'}, 404
-    @jwt_required()
+    
+    
     def post(self, codigo_carrinho):
         compra = CompraModel(codigo_carrinho)
         retorno_json = compra.realizar_compra()
         return retorno_json
     
-    @jwt_required()
+    
     def delete(self, codigo_carrinho):
         compra = CompraModel.encontrar_compra_por_carrinho(codigo_carrinho)
         if compra:

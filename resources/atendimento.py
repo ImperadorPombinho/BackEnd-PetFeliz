@@ -11,7 +11,6 @@ class FazendoAtendimento(Resource):
     atendimento_dados.add_argument('horario_entrada', type=str, required=True, help='hora_entrada é obrigatorio')
     atendimento_dados.add_argument('data', type=str, required=True, help='data atendimento é obrigatorio')
     
-    @jwt_required()
     def post(self, cadastro_pet, tipo_servico):
         dados = FazendoAtendimento.atendimento_dados.parse_args()
         formato = '%H:%M:%S'

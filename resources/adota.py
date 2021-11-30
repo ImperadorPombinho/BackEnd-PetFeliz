@@ -6,7 +6,6 @@ import mysql.connector
 
 class Adota(Resource):
     
-    @jwt_required()
     def post(self, cpf_cliente, cadastro_pet):
         string = str(datetime.datetime.now().time().hour) + ':' + str(datetime.datetime.now().time().minute) + ':' + str(datetime.datetime.now().time().second)
         formato = '%H:%M:%S'

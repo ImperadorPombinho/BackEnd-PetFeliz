@@ -44,7 +44,7 @@ class Pet(Resource):
             return pet.json(), 200
         return {'Error': f'pet {cadastro_pet} não encontrado'}, 404
     
-    @jwt_required()
+    
     def post(self, cadastro_pet):
         if PetModel.encontrar_pet_por_cadastro(cadastro_pet):
             return {'Error': 'pet jpa cadastrado'}, 406
@@ -63,7 +63,7 @@ class Pet(Resource):
             
         return {'messagem': f'cadastro do pet {pet.nome} efetuado com sucesso'}, 201
     
-    @jwt_required()
+   
     def put(self, cadastro_pet):
         dados = Pet.pet_dados.parse_args()
         dados_sem_cpf_e_sem_data = {chave: valor for chave, valor in dados.items() if chave != 'cpf_cliente' and chave != 'data_nascimento'}
@@ -80,7 +80,7 @@ class Pet(Resource):
             return {'Error': 'erro de servidor'}, 500
         return {'messagem': 'alteração de pet feita com sucesso'}, 200
 
-    @jwt_required()
+    
     def delete(self, cadastro_pet):
         pet = PetModel.encontrar_pet_por_cadastro(cadastro_pet)
         if pet:

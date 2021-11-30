@@ -56,7 +56,7 @@ class Cliente(Resource):
             return cliente.json(), 200
         return {'Error': 'Cliente não encontrado'}, 404
     
-    @jwt_required()
+    
     def put(self, cpf):
         dados = Cliente.cliente_atualiza.parse_args()
 
@@ -70,7 +70,7 @@ class Cliente(Resource):
                 return {'Error': 'erro ao atualizar, erro de servidor'}, 500
         return {'Error': f'erro ao atualizar cliente {cpf}, cliente nao encontrado'}, 404
     
-    @jwt_required()
+    
     def delete(self, cpf):
         cliente_a_deletar = ClienteModel.encontrar_cliente_por_cpf(cpf)
         if cliente_a_deletar:
