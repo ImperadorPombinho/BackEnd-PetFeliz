@@ -12,10 +12,11 @@ from resources.produto import Produtos, Produto
 from excel_dados import preenncher_banco
 from blacklist import BLACKLIST
 from sql_alchemy import banco
+import os
 from flask_jwt_extended import JWTManager
 app = Flask(__name__)
 banco.init_app(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://b39ac2ee88031a:029444b5@us-cdbr-east-04.cleardb.com/heroku_204f5e4dda9919c'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('CLEARDB_DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'DontTellAnyone'
 app.config['JWT_BLACKLIST_ENABLED'] = True
