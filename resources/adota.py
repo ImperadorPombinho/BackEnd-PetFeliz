@@ -18,9 +18,9 @@ class Adota(Resource):
 
 class PetsNaoAdotados(Resource):
     def get(self):
-        connect = mysql.connector.connect(user='xsl40cyoa6lt6veb', password='ovg5zexqjxozoggq',  
-                                      host='yjo6uubt3u5c16az.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306',
-                                      database='f9p7m5j30z3y2jap')
+        connect = mysql.connector.connect(user='b39ac2ee88031a', password='029444b5',  
+                                      host='us-cdbr-east-04.cleardb.com',
+                                      database='heroku_204f5e4dda9919c')
         cursor = connect.cursor()
         consulta_pets_nao_adotados = "SELECT CADASTRO_PET, \
             NOME, DATA_NASCIMENTO, RACA, ESPECIE \

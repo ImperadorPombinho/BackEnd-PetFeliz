@@ -7,9 +7,9 @@ class InterfaceRegrasNegocio:
                 
     @classmethod
     def checar_regra_3(cls, quantidade_gasta):
-        connect = mysql.connector.connect(user='xsl40cyoa6lt6veb', password='ovg5zexqjxozoggq',  
-                                      host='yjo6uubt3u5c16az.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306',
-                                      database='f9p7m5j30z3y2jap')
+        connect = mysql.connector.connect(user='b39ac2ee88031a', password='029444b5',  
+                                      host='us-cdbr-east-04.cleardb.com',
+                                      database='heroku_204f5e4dda9919c')
         cursor = connect.cursor()
         regra_3 = "SET @REGRA3 = REGRA_3(%s)"
         cursor.execute(regra_3, (quantidade_gasta,))
@@ -28,9 +28,9 @@ class InterfaceRegrasNegocio:
     
     @classmethod
     def checar_regra_2(cls, codigo, tipo):
-        connect = mysql.connector.connect(user='xsl40cyoa6lt6veb', password='ovg5zexqjxozoggq',  
-                                      host='yjo6uubt3u5c16az.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306',
-                                      database='f9p7m5j30z3y2jap')
+        connect = mysql.connector.connect(user='b39ac2ee88031a', password='029444b5',  
+                                      host='us-cdbr-east-04.cleardb.com',
+                                      database='heroku_204f5e4dda9919c')
         cursor = connect.cursor()
         regra_2 = "SET @REGRA2 = REGRA_2(%s, %s)"
         cursor.execute(regra_2, (codigo, tipo))
@@ -41,9 +41,9 @@ class InterfaceRegrasNegocio:
 
     @classmethod
     def checar_regra_1(cls, data_atendimento):
-        connect = mysql.connector.connect(user='xsl40cyoa6lt6veb', password='ovg5zexqjxozoggq',  
-                                      host='yjo6uubt3u5c16az.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306',
-                                      database='f9p7m5j30z3y2jap')
+        connect = mysql.connector.connect(user='b39ac2ee88031a', password='029444b5',  
+                                      host='us-cdbr-east-04.cleardb.com',
+                                      database='heroku_204f5e4dda9919c')
         cursor = connect.cursor()
         regra_1 = "SET @REGRA1 = REGRA_1(%s)"
         cursor.execute(regra_1, (data_atendimento,))
