@@ -18,9 +18,9 @@ argumentos.add_argument('creditos', type=float, required=True, help="creditos é
 class Clientes(Resource):
     def get(self):
         consulta_todos_clientes = "SELECT CPF, NOME, RG, TELEFONE, ENDERECO, EMAIL, QUANTIDADE_GASTA, CREDITOS FROM TB_CLIENTE"
-        connect = mysql.connector.connect(user='b39ac2ee88031a', password='029444b5',  
-                                      host='us-cdbr-east-04.cleardb.com',
-                                      database='heroku_204f5e4dda9919c')
+        connect = mysql.connector.connect(user='u2m73a3sefv5u75g', password='goy21mgoy17ck8fe',  
+                                      host='w3epjhex7h2ccjxx.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+                                      database='bw300f5gakj4xapd')
         cursor = connect.cursor()
         cursor.execute(consulta_todos_clientes)
         resultado_consulta = cursor.fetchall()

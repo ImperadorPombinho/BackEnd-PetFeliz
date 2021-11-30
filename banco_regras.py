@@ -79,9 +79,9 @@ begin \
     end if; \
         return (vNIVEL); \
 end;"
-    connect = mysql.connector.connect(user='b39ac2ee88031a', password='029444b5',  
-                                      host='us-cdbr-east-04.cleardb.com',
-                                      database='heroku_204f5e4dda9919c')
+    connect = mysql.connector.connect(user='u2m73a3sefv5u75g', password='goy21mgoy17ck8fe',  
+                                      host='w3epjhex7h2ccjxx.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+                                      database='bw300f5gakj4xapd')
     cursor = connect.cursor()
     cursor.execute(regra_1)
     cursor.execute(regra_2)

@@ -41,9 +41,9 @@ class AtendimentoModel(banco.Model):
         formato = '%H:%M:%S'
         hora_saida = ''
         consulta_se_ja_tem_data = "SELECT COUNT(*) FROM TB_ATENDIMENTO WHERE DATA = %s AND HORA_ENTRADA = %s AND CADASTRO_PET = %s"
-        connect = mysql.connector.connect(user='b39ac2ee88031a', password='029444b5',  
-                                      host='us-cdbr-east-04.cleardb.com',
-                                      database='heroku_204f5e4dda9919c')
+        connect = mysql.connector.connect(user='u2m73a3sefv5u75g', password='goy21mgoy17ck8fe',  
+                                      host='w3epjhex7h2ccjxx.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+                                      database='bw300f5gakj4xapd')
         cursor = connect.cursor()
         cursor.execute(consulta_se_ja_tem_data, (data, horario_de_entrada, cadastro_pet))
         resultado = cursor.fetchall()
